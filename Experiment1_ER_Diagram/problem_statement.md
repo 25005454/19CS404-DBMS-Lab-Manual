@@ -1,97 +1,163 @@
-# Experiment 1: Entity-Relationship (ER) Diagram
+# ER Diagram Workshop – Submission Template
 
-## 🎯 Objective:
-To understand and apply the concepts of ER modeling by creating an ER diagram for a real-world application.
+## Objective
+To understand and apply ER modeling concepts by creating ER diagrams for real-world applications.
 
-## 📚 Purpose:
-The purpose of this workshop is to gain hands-on experience in designing ER diagrams that visually represent the structure of a database including entities, relationships, attributes, and constraints.
-
----
-
-## 🧪 Choose One Scenario:
-
-### 🔹 Scenario 1: University Database
-Design a database to manage students, instructors, programs, courses, and student enrollments. Include prerequisites for courses.
-
-**User Requirements:**
-- Academic programs grouped under departments.
-- Students have admission number, name, DOB, contact info.
-- Instructors with staff number, contact info, etc.
-- Courses have number, name, credits.
-- Track course enrollments by students and enrollment date.
-- Add support for prerequisites (some courses require others).
+## Purpose
+Gain hands-on experience in designing ER diagrams that represent database structure including entities, relationships, attributes, and constraints.
 
 ---
 
-### 🔹 Scenario 2: Hospital Database
-Design a database for patient management, appointments, medical records, and billing.
+# Scenario A: City Fitness Club Management
 
-**User Requirements:**
-- Patient details including contact and insurance.
-- Doctors and their departments, contact info, specialization.
-- Appointments with reason, time, patient-doctor link.
-- Medical records with treatments, diagnosis, test results.
-- Billing and payment details for each appointment.
+**Business Context:**  
+FlexiFit Gym wants a database to manage its members, trainers, and fitness programs.
+
+**Requirements:**  
+- Members register with name, membership type, and start date.  
+- Each member can join multiple programs (Yoga, Zumba, Weight Training).  
+- Trainers assigned to programs; a program may have multiple trainers.  
+- Members may book personal training sessions with trainers.  
+- Attendance recorded for each session.  
+- Payments tracked for memberships and sessions.
+
+### ER Diagram:
+
+<img width="1021" height="691" alt="image" src="https://github.com/user-attachments/assets/0bdc3f72-083b-47e4-a62c-a97bb1a16358" />
+
+
+### Entities and Attributes
+
+| Entity                  | Attributes (PK, FK)                                             | Notes                                       |
+|-------------------------|-----------------------------------------------------------------|---------------------------------------------|
+| Member                  |MemberID (PK), Name, Phone, MembershipType                       |Stores member personal and membership details| 
+| Program	                | ProgramID (PK), Type, Duration	                                |Different fitness programs (Yoga, Zumba,etc.)|
+| Trainers	              |TrainerID (PK), Name, Phone, Specialization, Experience	        |Trainers working in the gym                  | 
+| PersonalTrainingSession	|SessionID (PK), MemberID (FK), TrainerID (FK), Date, Time	      |Personal training session booked by members  | 
+| Attendance	            |ID (PK), MemberID (FK), ProgramID (FK), Date, Status	            |Tracks which member attended which program   |
+| Payment	                |ID (PK), MemberID (FK), Amount, Date, Mode	                      |Payment records of members                   |
+
+### Relationships and Constraints
+
+| Relationship                   | Cardinality  | Participation       | Notes                              |
+|--------------------------------|--------------|---------------------|------------------------------------|
+| Member–Program                 |	M:N       	|Partial on both sides|Attendance links Members to Programs|
+| Program–Trainers               |	M:N	        |Partial	            |Trainers may run multiple programs  |
+| Member–PersonalTrainingSession |	1:M         |Total on PTS side    |Each session must belong to a member|
+| Trainer–PersonalTrainingSession|  1:M	        |Total on PTS side	  |Each session requires one trainer   |
+| Member–Attendance	             |  1:M	        |Total on Attendance	|Attendance entry refer to a member  | 
+| Program–Attendance	           |  1:M	        |Total	              |Attendance linked to programs       |
+| Member–Payment	               |  1:M	        |Total on Payment	    |Payment must be made by a member    |
+
+### Assumptions
+- A member can join multiple programs.
+- Trainers can be assigned to multiple programs.
+- Personal training sessions always involve one trainer and one member.
 
 ---
 
-## 📝 Tasks:
-1. Identify entities, relationships, and attributes.
-2. Draw the ER diagram using any tool (draw.io, dbdiagram.io, hand-drawn and scanned).
-3. Include:
-   - Cardinality & participation constraints
-   - Prerequisites for University OR Billing for Hospital
-4. Explain:
-   - Why you chose the entities and relationships.
-   - How you modeled prerequisites or billing.
+# Scenario B: City Library Event & Book Lending System
 
-# ER Diagram Submission
+**Business Context:**  
+The Central Library wants to manage book lending and cultural events.
 
-NAME - RAGALA SAI VIVEK
-REGISTER NUMBER - 212223230163
+**Requirements:**  
+- Members borrow books, with loan and return dates tracked.  
+- Each book has title, author, and category.  
+- Library organizes events; members can register.  
+- Each event has one or more speakers/authors.  
+- Rooms are booked for events and study.  
+- Overdue fines apply for late returns.
 
-## Scenario Chosen:
-University ER Diagram
+### ER Diagram:
 
-## ER Diagram:
-
-![WhatsApp Image 2025-05-01 at 18 43 31_ad716e44](https://github.com/user-attachments/assets/57756b8c-8662-4b85-b928-3efb57178976)
+<img width="891" height="921" alt="image" src="https://github.com/user-attachments/assets/000c6c71-aa8f-4bf4-8cca-7e968551844f" />
 
 
-## Entities and Attributes:
-1.Student - name, phone no., register no., subjects enrolled
+### Entities and Attributes
 
-2.Department -dept name, dept id
+| Entity     | Attributes (PK, FK)                                                      | Notes                          |
+|------------|--------------------------------------------------------------------------|--------------------------------|
+|Member      |MemberID (PK), MemberName, Email, Phone	                                  |Library members                 |
+|Book	       |BookID (PK), BookName, Author, Genre	                                    |Books available in the library  |
+|Loan	       |LoanID (PK), MemberID (FK), BookID (FK), LoanDate, ReturnDate, FineAmount	|Tracks borrowing of books       |
+|Room        |RoomID (PK), Capacity, Purpose	                                          |Rooms used for events           |
+|Event       |EventID (PK), EventName, EventDate, RoomID (FK)	                          |Events scheduled in the library |
+|Speaker     |SpeakerID (PK), Name, Specialization	                                    |Speakers invited for events     |
+|EventSpeaker|EventID (FK), SpeakerID (FK)	                                            |Event can have multiple speakers|                   
 
-3.Program- program name, program code, courses
+### Relationships and Constraints
 
-4.Course - course code, course name, credits
+| Relationship | Cardinality | Participation | Notes                                                                  |
+|--------------|-------------|---------------|------------------------------------------------------------------------|
+|Member–Loan 	 | 1 : M	     |Total on Loan	 |A loan must belong to one member                                        |
+|Book–Loan  	 | 1 : M	     |Total on Loan	 |A loan must refer to one book                                           |
+|Room–Event	   | 1 : M	     |Total on Event |An event must be assigned a room                                        |    
+|Event–Speaker | M : N	     |Partial	       |Eventsmay have multiple speakers,and speakers may attend multiple events|
+|Member–Event	 | M : N	     |Partial	       |Members may attend multiple events                                      |
+|Book–Member   | M : N	     |Total on both  |Many members can borrow many books over time              |             |
 
-5.Faculty - name, subject, faculty id
 
-6.University - university name, university id, students and staff
+### Assumptions
+- A member can borrow multiple books, but each loan entry is for one book at a time.
+- FineAmount is calculated separately and stored in the Loan entity.
+- A room can host many events but an event can take place in only one room.
+---
 
-...
+# Scenario C: Restaurant Table Reservation & Ordering
 
-## Relationships and Constraints:
-1.Student – Enrollment – Course
-```
-Many-to-Many via Enrollment(Each student can enroll in many courses; each course can have many students)
-```
-Participation: Total for Enrollment
+**Business Context:**  
+A popular restaurant wants to manage reservations, orders, and billing.
 
-2.Department – Program One-to-Many(A department offers many programs; each program belongs to one department)
+**Requirements:**  
+- Customers can reserve tables or walk in.  
+- Each reservation includes date, time, and number of guests.  
+- Customers place food orders linked to reservations.  
+- Each order contains multiple dishes; dishes belong to categories (starter, main, dessert).  
+- Bills generated per reservation, including food and service charges.  
+- Waiters assigned to serve reservations.
 
-3.Program – Course One-to-Many(A program offers many courses; a course belongs to one program)
+### ER Diagram:
 
-4.Course – Prerequisite – Course Recursive Many-to-Many(A course can have multiple prerequisites; a course can be a prerequisite for multiple other courses)
+<img width="1032" height="692" alt="image" src="https://github.com/user-attachments/assets/1f939055-e752-4135-bf0b-cf18b9bed377" />
 
-5.Instructor – Course One-to-Many(An instructor can teach multiple courses; each course is taught by one instructor)
-...
-## Extension (Prerequisite / Billing):
-Modeled with a recursive relationship on the Course entity. Represented by a separate entity Prerequisite with two foreign keys referencing Course. Ensures that one course must be completed before enrolling in another.Prerequisites are not modeled in the diagram. To add prerequisites: Create a recursive relationship on the Course entity (e.g., prerequisite_for). Billing is also not included.To include billing: Introduce a Billing or Payment entity related to Student and Program/Course, with attributes like amount, due date, status.
-## Design Choices:
-Entities were selected to reflect distinct real-world components of a university system (e.g., students, faculties, courses). Attributes were chosen based on minimal information needed to identify and manage these entities. Relationships accurately capture the natural hierarchy and many-to-many connections in educational structures. Programs containing multiple courses, and courses being part of multiple programs, support curriculum flexibility. Faculties handle courses, which is a functional and administrative link. The university is at the top of the structure, logically managing both students and faculties.
-## RESULT
-The ER model captures students, instructors, courses, programs, and their relationships, including enrollments and prerequisites. It’s clear, efficient, and supports future database extensions.
+
+### Entities and Attributes
+
+| Entity    | Attributes (PK, FK)                                                                     | Notes                              |
+|-----------|-----------------------------------------------------------------------------------------|------------------------------------|
+|Customer	  |CustomerID (PK), Name, Email, Contact	                                                  |Customer details                    |      
+|Dish	      |DishID (PK), DishName, Price, Category	                                                  |Menu items served                   |
+|Waiter	    |WaiterID (PK), Name, Contact, Shift	                                                    |Staff who serve customers           |
+|Reservation|ReservationID (PK), CustomerID (FK), TableID, Date, Time  	                              |Table reservations made by customers|
+|Orders	    |OrderID (PK), CustomerID (FK), ReservationID (FK), DishID (FK), WaiterID (FK), OrderTime	|Order placed for dishes             | 
+|Billing	  |BillID (PK), ReservationID (FK), TotalAmount, ServiceCharge	                            |Final bill for reservation          |               
+
+### Relationships and Constraints
+
+| Relationship        | Cardinality | Participation       | Notes                                      |
+|---------------------|-------------|---------------------|--------------------------------------------|
+|Customer–Reservation	| 1 : M	      |Total on Reservation	|A reservation must be linked to a customer  |
+|Customer–Orders	    | 1 : M	      |Total on Orders	    |An order is always placed by a customer     |
+|Reservation–Billing	| 1 : 1	      |Total on Billing	    |Every reservation has exactly one bill      |
+|Reservation–Orders	  | 1 : M	      |Partial	            |Not all reservations may have orders        |
+|Dish–Orders	        | 1 : M	      |Total on Orders	    |An order must refer to a dish               | 
+|Waiter–Orders	      | 1 : M	      |Total	              |Each order is served by one waiter          |
+|Customer–Billing	    | 1 : M       |Partial	            |Customer pays the bill for their reservation|         
+### Assumptions
+- A customer may or may not make a reservation before ordering.
+- Each order contains one dish per entry (multiple dishes = multiple order entries).
+- Billing is done per reservation, not per individual order.
+- A waiter can serve multiple orders but an order is handled by exactly one waiter.
+
+---
+
+## Instructions for Students
+
+1. Complete **all three scenarios** (A, B, C).  
+2. Identify entities, relationships, and attributes for each.  
+3. Draw ER diagrams using **draw.io / diagrams.net** or hand-drawn & scanned.  
+4. Fill in all tables and assumptions for each scenario.  
+5. Export the completed Markdown (with diagrams) as **a single PDF**
+
 
